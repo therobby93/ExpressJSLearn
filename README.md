@@ -1,30 +1,73 @@
 # Learning fundamentals of Express JS
 My journey with Express. 
-## MVC
- *Model − It is the lowest level of the pattern responsible for maintaining data.
+* Express provides a minimal interface to build our applications. 
+* It provides us the tools that are required to build our app. 
+* It is flexible as there are numerous modules available on npm, which can be directly plugged into Express.
 
- *View − It is responsible for displaying all or a portion of the data to the user.
+## Routing
+ *Defining routes like above is very tedious to maintain.
+ To separate the routes from our main index.js file, we will use Express.Router. 
+ Create a new file called things.js and type the following in it.
+ ```
+ var express = require('express');
+var router = express.Router();
 
- *Controller − It is a software Code that controls the interactions between the Model and View.
+router.get('/', function(req, res){
+   res.send('GET route on things.');
+});
+router.post('/', function(req, res){
+   res.send('POST route on things.');
+});
 
-## Directives
-*AngularJS directives are used to extend HTML.
+//export this router to use in our index.js
+module.exports = router;
+ ```
+ 
 
-## Expressions
+## HTTP Methods
+*1	
+GET: The GET method requests a representation of the specified resource. 
+Requests using GET should only retrieve data and should have no other effect.
 
-*Expressions are used to bind application data to html. 
-*Expressions are written inside double braces like {{ expression}}. 
-*Expressions behaves in same way as ng-bind directives. 
-**AngularJS application expressions are pure javascript expressions and outputs the data where they are used.
+*2	
+POST:The POST method requests that the server accept the data enclosed in the request as a 
+new object/entity of the resource identified by the URI.
+
+*3	
+PUT: The PUT method requests that the server accept the data enclosed in the request as a
+modification to existing object identified by the URI. If it does not exist then the PUT method should create one.
+
+*4	
+DELETE: The DELETE method requests that the server delete the specified resource.
+
+## Middleware
+
+*Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. These functions are used to modify req and res objects for tasks like parsing request bodies, adding response headers, etc.
+
 ```
-Give examples
+Examples:
+----------
+var express = require('express');
+var app = express();
+
+//Simple request time logger
+app.use(function(req, res, next){
+   console.log("A new request received at " + Date.now());
+   
+   //This function call is very important. It tells that more processing is
+   //required for the current request and is in the next middleware
+   function/route handler.
+   next();
+});
+
+app.listen(3000);
 ```
 
-## Controllers
-* AngularJS application mainly relies on controllers to control the flow of data in the application. 
-* A controller is defined using ng-controller directive.
-* A controller is a JavaScript object containing attributes/properties and functions.
-*Each controller accepts $scope as a parameter which refers to the application/module that controller is to control.
+## Serving static files
+* Static files are files that clients download as they are from the server. 
+* Create a new directory, public. Express, by default does not allow you to serve static files. 
+* You need to enable it using the following built-in middleware.
+
 ```
 <div ng-app = "" ng-controller = "studentController">
    ...
